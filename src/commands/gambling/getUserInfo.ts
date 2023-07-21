@@ -11,7 +11,7 @@ async function handler(interaction: ChatInputCommandInteraction) {
         .setTitle(`${interaction.member.user.username} 님의 정보 🧐`)
         .setTimestamp(Date.now())
         .addFields(
-            { name: '잔액', value: `\`\`\`${numberWithCommas(data.money)}원\`\`\`` },
+            { name: '잔액', value: `\`\`\`${numberWithCommas(Number(data.money))}원\`\`\`` },
             { name: '베팅 성공', value: codeBlock('diff', `+${numberWithCommas(data.betWin || 0)}번`), inline: true },
             { name: '베팅 실패', value: codeBlock('diff', `-${numberWithCommas(data.betFailed || 0)}번`), inline: true },
         )

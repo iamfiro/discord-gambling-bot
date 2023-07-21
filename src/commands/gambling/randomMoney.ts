@@ -6,7 +6,7 @@ import { numberWithCommas } from "../../lib/format";
 async function handler(interaction: ChatInputCommandInteraction) {
     checkAvailableUser(interaction).then(async function(result) {
         if(result) return await interaction.reply({ embeds: [RegisterEmbed]});
-        let money = 0;
+        let money = 0n;
         let randomMoney = Math.floor((Math.random()*(5000-1000))+1000);
         const data = await getUserData(interaction)
         money = data.money;
@@ -17,7 +17,7 @@ async function handler(interaction: ChatInputCommandInteraction) {
             .setTimestamp(Date.now())
             .addFields(
                 { name: '송금된 금액', value: `\`\`\`${numberWithCommas(randomMoney)}원\`\`\`` },
-                { name: '잔액', value: `\`\`\`${numberWithCommas(result)}원\`\`\`` },
+                { name: '잔액', value: `\`\`\`${numberWithCommas(Number(result))}원\`\`\`` },
             )
             await interaction.reply({ embeds: [Embed]})
         });

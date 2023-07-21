@@ -13,7 +13,7 @@ model User {
     name String @unique
     username String
     createdAt DateTime @default(now())
-    money Int @default(0)
+    money BigInt @default(0)
     betWin Int @default(0)
     betFailed Int @default(0)
 }
