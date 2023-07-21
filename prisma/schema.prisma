@@ -16,4 +16,5 @@ model User {
     money BigInt @default(0)
     betWin Int @default(0)
     betFailed Int @default(0)
+    lastDaily String @default("")
 }

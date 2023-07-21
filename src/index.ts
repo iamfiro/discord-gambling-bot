@@ -6,6 +6,7 @@ import transferMoney from './commands/gambling/transferMoney';
 import register from './commands/gambling/register';
 import { Routes } from 'discord.js';
 import gambling from './commands/gambling/gambling';
+import daily from './commands/gambling/daily';
 
 client.on('ready', async() => {
     await rest.put(Routes.applicationCommands(process.env.BOT_ID), {
@@ -15,7 +16,8 @@ client.on('ready', async() => {
             randomMoney.info.toJSON(),
             transferMoney.info.toJSON(),
             register.info.toJSON(),
-            gambling.info.toJSON()
+            gambling.info.toJSON(),
+            daily.info.toJSON(),
         ]
     })
     console.log(`✅ Logged in as ${client.user?.tag}!`)
@@ -30,6 +32,7 @@ client.on('interactionCreate', async interaction => {
             case '송금': transferMoney.handler(interaction); break;
             case '가입': register.handler(interaction); break;
             case '도박': gambling.handler(interaction); break;
+            case '출첵': daily.handler(interaction); break;
         }
     } else if (interaction.isButton()) {
         

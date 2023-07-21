@@ -1,6 +1,7 @@
 import { type User } from "@prisma/client"
 import prisma from "../lib/prisma"
 import { ChatInputCommandInteraction, EmbedBuilder } from "discord.js"
+import { dailyMoney } from "./money"
 
 export const RegisterEmbed = new EmbedBuilder()
     .setColor(0x0099FF)
@@ -30,11 +31,24 @@ export const getUserData = async (interaction: ChatInputCommandInteraction): Pro
 }
 
 export const registerUserData = async (interaction: ChatInputCommandInteraction): Promise<User> => {
+    const date = new Date()
     const data = await prisma.user.create({ 
         data: { 
             name: interaction.member.user.id,
             username: interaction.member.user.username,
+            lastDaily: (date.getFullYear()+ '-' + (date.getMonth() + 1) + '-' + date.getDate()).toString()
         } 
     })
     return data;
+}
+
+export const getLastDailyData = async (interaction: ChatInputCommandInteraction): Promise<string> => {
+    const data = await prisma.user.findFirst({ where: { name: interaction.member.user.id } });
+    return data.lastDaily
+}
+
+export const setLastDailyData = async (interaction: ChatInputCommandInteraction): Promise<void> => {
+    const date = new Date()
+    const data = await prisma.user.update({ where: { name: interaction.member.user.id }, data: { lastDaily: (date.getFullYear()+ '-' + (date.getMonth() + 1) + '-' + date.getDate()).toString()} });
+    dailyMoney(interaction)
 }

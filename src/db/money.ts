@@ -63,3 +63,12 @@ export const increaseUserMoney = async (name: string, moneyValue): Promise<bigin
     });
     return money
 }
+
+export const dailyMoney = async (interaction: ChatInputCommandInteraction): Promise<bigint> => {
+    const data = await prisma.user.findFirst({ where: { name: interaction.member.user.id } });
+    return await prisma.user.update({ where: { name: interaction.member.user.id }, data: {
+        money: Number(data.money) + 20000
+    }}).then(async (data) => {
+        return data.money
+    })
+}
