@@ -60,7 +60,7 @@ async function handler(interaction: ChatInputCommandInteraction) {
                     inline: true,
                 }, { 
                     name: '베팅 금액 🧾', 
-                    value: numberWithCommas(Number(interaction.options.get('베팅금액').value)).toString() + '원\n', 
+                    value: numberWithCommas(Number(result.amount)).toString() + '원\n', 
                     inline: true,
                 }, { 
                     name: '베팅 수익 💸', 
