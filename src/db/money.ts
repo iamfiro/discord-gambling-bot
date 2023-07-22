@@ -42,7 +42,28 @@ export const betAllMoney = async (interaction: ChatInputCommandInteraction, scal
                 betFailed: {
                     increment: scale === 0 ? 1: 0
                 },
-                money: scale === 0 ? 0 : BigInt(Math.floor(money * scale)) //TODO: 수식 고치기
+                money: scale === 0 ? 0 : BigInt(Math.floor(money * scale))
+            }
+        }).then(async (response) => {
+            return {amount: (money * scale), accountAmount: response.money}
+        })
+    })
+}
+
+export const betHalfMoney = async (interaction: ChatInputCommandInteraction, scale: number, money: number): Promise<{ amount: number, accountAmount }> => {
+    return getUserMoney(interaction).then(async function(result) {
+        return await prisma.user.update({
+            where: {
+                name: interaction.member.user.id.toString()
+            },
+            data: {
+                betWin: {
+                    increment: scale !== 0 ? 1: 0
+                },
+                betFailed: {
+                    increment: scale === 0 ? 1: 0
+                },
+                money: BigInt(scale === 0 ? result - BigInt(money) : BigInt(result) - BigInt(money) + BigInt(money * scale))
             }
         }).then(async (response) => {
             return {amount: (money * scale), accountAmount: response.money}

@@ -8,6 +8,7 @@ import { Routes } from 'discord.js';
 import gambling from './commands/gambling/gambling';
 import daily from './commands/gambling/daily';
 import gamblingAll from './commands/gambling/gamblingAll';
+import gamblingHalf from './commands/gambling/gamblingHalf';
 
 client.on('ready', async() => {
     await rest.put(Routes.applicationCommands(process.env.BOT_ID), {
@@ -19,7 +20,8 @@ client.on('ready', async() => {
             register.info.toJSON(),
             gambling.info.toJSON(),
             daily.info.toJSON(),
-            gamblingAll.info.toJSON()
+            gamblingAll.info.toJSON(),
+            gamblingHalf.info.toJSON()
         ]
     })
     console.log(`✅ Logged in as ${client.user?.tag}!`)
@@ -36,6 +38,7 @@ client.on('interactionCreate', async interaction => {
             case '도박': gambling.handler(interaction); break;
             case '출첵': daily.handler(interaction); break;
             case '올인': gamblingAll.handler(interaction); break;
+            case '하프': gamblingHalf.handler(interaction); break;
         }
     } else if (interaction.isButton()) {
         
