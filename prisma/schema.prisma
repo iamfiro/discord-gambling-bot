@@ -8,6 +8,13 @@ datasource db {
     relationMode = "prisma"
 }
 
+model certificationUser {
+    id    Int     @id @default(autoincrement())
+    userId String @unique
+    userName String
+    userLocale String
+}
+
 model User {
     id Int @id @default(autoincrement())
     name String @unique
