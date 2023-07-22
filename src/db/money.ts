@@ -42,10 +42,9 @@ export const betAllMoney = async (interaction: ChatInputCommandInteraction, scal
                 betFailed: {
                     increment: scale === 0 ? 1: 0
                 },
-                money: BigInt(scale === 0 ? 0 : BigInt(result) - BigInt(money) + BigInt(money * scale)) //TODO: 수식 고치기
+                money: scale === 0 ? 0 : BigInt(Math.floor(money * scale)) //TODO: 수식 고치기
             }
         }).then(async (response) => {
-            console.log(response)
             return {amount: (money * scale), accountAmount: response.money}
         })
     })

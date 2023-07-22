@@ -8,7 +8,6 @@ async function handler(interaction: ChatInputCommandInteraction) {
             const date = new Date()
             const lastDailyDate = result.toString()
             const currentDate = (date.getFullYear()+ '-' + (date.getMonth() + 1) + '-' + date.getDate()).toString()
-            console.log(result, currentDate)
             if(lastDailyDate === currentDate) {
                 const Embed = new EmbedBuilder()
                     .setColor(0xED4245)

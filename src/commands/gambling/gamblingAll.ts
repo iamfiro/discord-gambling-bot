@@ -29,9 +29,8 @@ function randomMessage(scale: number) {
 async function handler(interaction: ChatInputCommandInteraction) {
     checkAvailableUser(interaction).then(async function(verficationResult) {
         if(verficationResult) return await interaction.reply({ embeds: [RegisterEmbed]});
-        getUserMoney(interaction).then(async function(result) {
-            console.log(result)
-            if(!onlyNumberRegex.test(result.toString())) {
+        getUserMoney(interaction).then(async function(moneyResult) {
+            if(!onlyNumberRegex.test(moneyResult.toString())) {
                 const AmountMinimumErrorEmbed = new EmbedBuilder()
                 .setColor(0xED4245)
                 .setTitle(`🚫 베팅중 오류가 발생했습니다`)
@@ -39,7 +38,7 @@ async function handler(interaction: ChatInputCommandInteraction) {
                 .setTimestamp(Date.now())
                 return await interaction.reply({ embeds: [AmountMinimumErrorEmbed], ephemeral: true})
             }
-            if(Number(result) < 1000) {
+            if(Number(moneyResult) < 1000) {
                 const AmountMinimumErrorEmbed = new EmbedBuilder()
                 .setColor(0xED4245)
                 .setTitle(`🚫 베팅중 오류가 발생했습니다`)
@@ -49,8 +48,7 @@ async function handler(interaction: ChatInputCommandInteraction) {
             }
     
             let randomScale = randomType(Math.floor((Math.random()*(100-1))+1));
-            betAllMoney(interaction, randomScale, Number(result)).then(async function(result) {
-                console.log(result)
+            betAllMoney(interaction, randomScale, Number(moneyResult)).then(async function(result) {
                 const failEmbed = new EmbedBuilder()
                 .setColor(randomScale === 0 ? 0x3498DB : 0xED4245)
                 .setTitle(randomMessage(randomScale))
@@ -60,11 +58,11 @@ async function handler(interaction: ChatInputCommandInteraction) {
                     inline: true,
                 }, { 
                     name: '베팅 금액 🧾', 
-                    value: numberWithCommas(Number(result.amount)).toString() + '원\n', 
+                    value: numberWithCommas(Number(moneyResult)).toString() + '원\n', 
                     inline: true,
                 }, { 
                     name: '베팅 수익 💸', 
-                    value: numberWithCommas(Math.floor(result.amount)).toString() + '원', 
+                    value: numberWithCommas(BigInt(Math.floor(Number(moneyResult) * randomScale)) - moneyResult).toString() + '원', 
                     inline: true,
                 }, { 
                     name: '내 잔고 💰', 
